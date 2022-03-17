@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
 import { FieldProps } from './Components/Field';
 import Form from './Components/Form';
@@ -52,6 +52,16 @@ function App() {
     },
   ]
 
+  useEffect(() => {
+    const pessoasStr = localStorage.getItem('pessoas');
+    if (pessoasStr !== null) {
+      const pessoasStorage: Pessoa[] = JSON.parse(pessoasStr);
+      setPessoas(pessoasStorage);
+    } else {
+      localStorage.setItem('pessoas', '[]')
+    }
+  }, [])
+
   const onChange = (
     event: React.ChangeEvent<HTMLInputElement>,
     fieldName: 'nome' | 'sobreNome' | 'idade'
@@ -74,18 +84,20 @@ function App() {
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    setPessoas(state => ([
-      ...state,
-      { 
-        nome: pessoaForm.nome,
-        sobreNome: pessoaForm.sobreNome,
-        idade: pessoaForm.idade
-      }
-    ]))
+    setPessoas(state => {
+      const newPessoas = [
+        ...state,
+        { 
+          nome: pessoaForm.nome,
+          sobreNome: pessoaForm.sobreNome,
+          idade: pessoaForm.idade
+        }
+      ]
+      localStorage.setItem('pessoas', JSON.stringify(newPessoas))
+      return newPessoas
+    })
     setPessoaForm(pessoaInicial)
   }
-
-  console.log(pessoas)
 
   return (
     <div style={containerStyles}>
