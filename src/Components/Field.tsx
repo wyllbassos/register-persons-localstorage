@@ -2,7 +2,6 @@ import { InputHTMLAttributes } from 'react';
 
 export interface FieldProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
-  key: string;
   marginTop?: boolean;
 }
 

@@ -26,8 +26,8 @@ const buttonStyle: React.CSSProperties = {
 function Form({ fields, ...rest }: FormProps) {
   return (
     <form style={containerStyles} {...rest}>
-      {fields.map(field => (
-        <Field {...field} />
+      {fields.map((field, i) => (
+        <Field key={i} {...field} />
       ))}
       <div style={buttonContainerStyle}>
         <button style={buttonStyle} type='submit'>Salvar</button>
