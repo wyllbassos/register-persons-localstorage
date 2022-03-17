@@ -1,16 +1,24 @@
-import React, { InputHTMLAttributes, useState } from 'react';
+import { useState } from 'react';
 import './App.css';
+import { FieldProps } from './Components/Field';
+import Form from './Components/Form';
 
-interface Field extends InputHTMLAttributes<HTMLInputElement> {
-  label: string;
+const containerStyles: React.CSSProperties = {
+  backgroundColor: '#282c34',
+  display: 'flex',
+  flexDirection: 'column',
+  height: '100vh',
+  width: '100vw',
+  alignItems: 'center',
+  justifyContent: 'center',
+  fontSize: 'calc(10px + 2vmin)',
+  color: 'white',
 }
 
-interface FieldProps {
-  field: Field;
-}
-
-interface FormProps {
-  fields: Field[];
+interface Pessoa {
+  name: string;
+  sobreNome: string;
+  idade: number;
 }
 
 function App() {
@@ -18,70 +26,37 @@ function App() {
   const [sobreNome, setSobreNome] = useState('')
   const [idade, setIdade] = useState(0)
 
-  const fields: Field[] = [
-    { label: 'Nome', value: name, onChange: ({ target: { value } }) => setName(value) },
-    { label: 'Sobre Nome', value: sobreNome, onChange: ({ target: { value } }) => setSobreNome(value) },
-    { label: 'Idade', value: idade, type: 'number', onChange: ({ target: { value } }) => setIdade(Number(value)) }
+  const [pessoas, setPessoas] = useState<Pessoa[]>([])
+
+  const fields: FieldProps[] = [
+    { key: 'f1', label: 'Nome', marginTop: false, value: name, onChange: ({ target: { value } }) => setName(value) },
+    { key: 'f2', label: 'Sobre Nome', marginTop: true, value: sobreNome, onChange: ({ target: { value } }) => setSobreNome(value) },
+    { key: 'f3', label: 'Idade', marginTop: true, value: idade, type: 'number', onChange: ({ target: { value } }) => setIdade(Number(value)) }
   ]
 
   console.log(name)
   console.log(fields)
+  console.log(pessoas)
 
   return (
-    <div
-      style={{
-        backgroundColor: '#282c34',
-        display: 'flex',
-        height: '100vh',
-        width: '100vw',
-        alignItems: 'center',
-        justifyContent: 'center',
-        fontSize: 'calc(10px + 2vmin)',
-        color: 'white',
-      }}
-    >
-      <div style={{
-        padding: '16px 32px 32px 32px',
-        backgroundColor: 'gray',
-        display: 'flex',
-        width: '25%',
-      }}>
-        <Form fields={fields} />
-      </div>
+    <div style={containerStyles}>
+      <Form fields={fields} onSubmit={ e => {
+        e.preventDefault()
+        setPessoas(state => ([
+          ...state,
+          { name, sobreNome, idade }
+        ]))
+      }} />
+      <ul>
+        {pessoas.map((pessoa, i) => (
+          <li key={i}>
+            {`${pessoa.name} ${pessoa.sobreNome} ${pessoa.idade}`}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
 
-function Form({ fields }: FormProps) {
-  return (
-    <form style={{
-      width: '100%',
-    }}>
-      {fields.map(field => (
-        <Field key={field.label} field={field} />
-      ))}
-    </form>
-  )
-}
-
-function Field({ field }: FieldProps) {
-  const { label, ...rest } = field
-  return (
-    <div style={{
-      display: 'flex',
-      width: '100%',
-      justifyContent: 'space-between',
-      marginTop: 16,
-    }}>
-      <label>{label}</label>
-      <input
-        {...rest}
-        style={{
-          marginLeft: 16
-        }}
-      />
-    </div>
-  )
-}
 
 export default App;
