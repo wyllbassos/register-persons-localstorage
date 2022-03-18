@@ -15,12 +15,32 @@ function ListPersons({ persons, handleUpdatePersons }: ListPersonsProps) {
 
   return (
     <div className='app-list-container'>
-        {persons.map((person, i) => (
-        <span key={i}>
-            <button onClick={e => handleDeletePerson(i)}>X</button>
-            {`${person.name} ${person.lastName} ${person.age}`}
-        </span>
-        ))}
+      <table>
+        <thead>
+          <th>Ações</th>
+          <th>Nome</th>
+          <th>Sobre Nome</th>
+          <th>Idade</th>
+        </thead>
+        <tbody>
+          {persons.map(({ name, lastName, age }, i) => (
+            <tr key={i}>
+              <td>
+                <button onClick={() => handleDeletePerson(i)}>X</button>
+              </td>
+              <td>
+                {name}
+              </td>
+              <td>
+                {lastName}
+              </td>
+              <td>
+                {age}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }
