@@ -12,6 +12,22 @@
   padding: 32px;
 }
 
+.app-list-container::-webkit-scrollbar {
+  background-color: #aaa;
+  background-color: transparent;
+  outline: 1px solid white;
+  outline-offset: -8px;
+  width: 16px;
+}
+
+.app-list-container::-webkit-scrollbar-thumb {
+  background: #282c34;
+  border-radius: 8px;
+  border: solid 4px transparent;
+  background-clip: content-box;
+  max-height: 32px;
+}
+
 .app-list-container div {
   display: flex;
   align-items: center;
@@ -23,6 +39,7 @@
   width: calc(-16px + 100% - 16px);
   border-radius: 8px;
   padding: 8px 16px;
+  box-shadow: 8px 8px 8px black;
 }
 
 .app-list-card:first-child {
