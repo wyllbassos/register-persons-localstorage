@@ -3,18 +3,6 @@ import './App.css';
 import { FieldProps } from './Components/Field';
 import Form from './Components/Form';
 
-const containerStyles: React.CSSProperties = {
-  backgroundColor: '#282c34',
-  display: 'flex',
-  flexDirection: 'column',
-  height: '100vh',
-  width: '100vw',
-  alignItems: 'center',
-  justifyContent: 'center',
-  fontSize: 'calc(10px + 2vmin)',
-  color: 'white',
-}
-
 interface Pessoa {
   nome: string;
   sobreNome: string;
@@ -84,32 +72,43 @@ function App() {
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    setPessoas(state => {
-      const newPessoas = [
-        ...state,
-        { 
-          nome: pessoaForm.nome,
-          sobreNome: pessoaForm.sobreNome,
-          idade: pessoaForm.idade
-        }
-      ]
-      localStorage.setItem('pessoas', JSON.stringify(newPessoas))
-      return newPessoas
-    })
+
+    const newPessoas = [
+      ...pessoas,
+      { 
+        nome: pessoaForm.nome,
+        sobreNome: pessoaForm.sobreNome,
+        idade: pessoaForm.idade
+      }
+    ]
+
+    handleUpdatePessoa(newPessoas)
     setPessoaForm(pessoaInicial)
   }
 
+  const handleUpdatePessoa = (newPessoas: Pessoa[]) => {
+    setPessoas(newPessoas)
+    localStorage.setItem('pessoas', JSON.stringify(newPessoas))
+  }
+
+  const handleDeleteIten = (index: number) => {
+    const newPessoas = [...pessoas]
+    newPessoas.splice(index, 1)
+    handleUpdatePessoa(newPessoas)
+  }
+
   return (
-    <div style={containerStyles}>
+    <div className='app-container'>
       <Form fields={fields} onSubmit={onSubmit} />
 
-      <ul>
+      <div className='app-list-container'>
         {pessoas.map((pessoa, i) => (
-          <li key={i}>
+          <span key={i}>
+            <button onClick={e => handleDeleteIten(i)}>X</button>
             {`${pessoa.nome} ${pessoa.sobreNome} ${pessoa.idade}`}
-          </li>
+          </span>
         ))}
-      </ul>
+      </div>
     </div>
   );
 }
