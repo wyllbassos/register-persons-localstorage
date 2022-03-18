@@ -3,67 +3,67 @@ import './App.css';
 import { FieldProps } from './Components/Field';
 import Form from './Components/Form';
 
-interface Pessoa {
-  nome: string;
-  sobreNome: string;
-  idade: number;
+interface Person {
+  name: string;
+  lastName: string;
+  age: number;
 }
 
-const pessoaInicial: Pessoa = { nome: '', sobreNome: '', idade: 0 }
+const personEmpty: Person = { name: '', lastName: '', age: 0 }
 
 function App() {
-  const [pessoaForm, setPessoaForm] = useState(pessoaInicial)
+  const [personForm, setPersonForm] = useState(personEmpty)
 
-  const [pessoas, setPessoas] = useState<Pessoa[]>([])
+  const [persons, setPersons] = useState<Person[]>([])
 
   const fields: FieldProps[] = [
     {
       marginTop: false,
-      value: pessoaForm.nome,
+      value: personForm.name,
       label: 'Nome',
-      onChange: e => onChange(e, 'nome'),
+      onChange: e => handleChangeField(e, 'name'),
       type: 'text'
     },
     {
       marginTop: true,
-      value: pessoaForm.sobreNome,
+      value: personForm.lastName,
       label: 'Sobre Nome',
-      onChange: e => onChange(e, 'sobreNome'),
+      onChange: e => handleChangeField(e, 'lastName'),
       type: 'text'
     },
     {
       marginTop: true,
-      value: pessoaForm.idade,
+      value: personForm.age,
       label: 'Idade',
-      onChange: e => onChange(e, 'idade'),
+      onChange: e => handleChangeField(e, 'age'),
       type: 'number'
     },
   ]
 
   useEffect(() => {
-    const pessoasStr = localStorage.getItem('pessoas');
-    if (pessoasStr !== null) {
-      const pessoasStorage: Pessoa[] = JSON.parse(pessoasStr);
-      setPessoas(pessoasStorage);
+    const personsStr = localStorage.getItem('persons');
+    if (personsStr !== null) {
+      const personsStorage: Person[] = JSON.parse(personsStr);
+      setPersons(personsStorage);
     } else {
-      localStorage.setItem('pessoas', '[]')
+      localStorage.setItem('persons', '[]')
     }
   }, [])
 
-  const onChange = (
+  const handleChangeField = (
     event: React.ChangeEvent<HTMLInputElement>,
-    fieldName: 'nome' | 'sobreNome' | 'idade'
+    fieldName: 'name' | 'lastName' | 'age'
   ) => {
     const { target: { value } } = event;
     switch (fieldName) {
-      case 'nome':
-        setPessoaForm(state => ({...state, nome: value }))
+      case 'name':
+        setPersonForm(state => ({...state, name: value }))
         break;
-      case 'sobreNome':
-        setPessoaForm(state => ({...state, sobreNome: value }))
+      case 'lastName':
+        setPersonForm(state => ({...state, lastName: value }))
         break;
-      case 'idade':
-        setPessoaForm(state => ({...state, idade: Number(value) }))
+      case 'age':
+        setPersonForm(state => ({...state, age: Number(value) }))
         break;
       default:
         break;
@@ -73,28 +73,22 @@ function App() {
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
-    const newPessoas = [
-      ...pessoas,
-      { 
-        nome: pessoaForm.nome,
-        sobreNome: pessoaForm.sobreNome,
-        idade: pessoaForm.idade
-      }
-    ]
+    const newPersons = [...persons]
+    newPersons.push(personForm)
 
-    handleUpdatePessoa(newPessoas)
-    setPessoaForm(pessoaInicial)
+    handleUpdatePerson(newPersons)
+    setPersonForm(personEmpty)
   }
 
-  const handleUpdatePessoa = (newPessoas: Pessoa[]) => {
-    setPessoas(newPessoas)
-    localStorage.setItem('pessoas', JSON.stringify(newPessoas))
+  const handleUpdatePerson = (newPersons: Person[]) => {
+    setPersons(newPersons)
+    localStorage.setItem('persons', JSON.stringify(newPersons))
   }
 
   const handleDeleteIten = (index: number) => {
-    const newPessoas = [...pessoas]
-    newPessoas.splice(index, 1)
-    handleUpdatePessoa(newPessoas)
+    const newPersons = [...persons]
+    newPersons.splice(index, 1)
+    handleUpdatePerson(newPersons)
   }
 
   return (
@@ -102,10 +96,10 @@ function App() {
       <Form fields={fields} onSubmit={onSubmit} />
 
       <div className='app-list-container'>
-        {pessoas.map((pessoa, i) => (
+        {persons.map((person, i) => (
           <span key={i}>
             <button onClick={e => handleDeleteIten(i)}>X</button>
-            {`${pessoa.nome} ${pessoa.sobreNome} ${pessoa.idade}`}
+            {`${person.name} ${person.lastName} ${person.age}`}
           </span>
         ))}
       </div>

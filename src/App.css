@@ -13,6 +13,7 @@
 .app-list-container {
   display: flex;
   flex-direction: column;
+  align-items: baseline;
   margin-top: 16px;
 }
 
