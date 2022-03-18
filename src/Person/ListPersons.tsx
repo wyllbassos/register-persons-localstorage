@@ -3,14 +3,14 @@ import './ListPersons.css';
 
 export interface ListPersonsProps {
     persons: Person[];
-    handleUpdatePerson: (newPersons: Person[]) => void;
+    handleUpdatePersons: (newPersons: Person[]) => void;
   }
 
-function ListPersons({ persons, handleUpdatePerson }: ListPersonsProps) {
+function ListPersons({ persons, handleUpdatePersons }: ListPersonsProps) {
   const handleDeletePerson = (index: number) => {
     const newPersons = [...persons]
     newPersons.splice(index, 1)
-    handleUpdatePerson(newPersons)
+    handleUpdatePersons(newPersons)
   }
 
   return (

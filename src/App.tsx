@@ -13,6 +13,7 @@ export interface Person {
 
 function App() {
   const [persons, setPersons] = useState<Person[]>([])
+  const [formPersonActive, setFormActive] = useState(false)
 
   useEffect(() => {
     const personsStr = localStorage.getItem('persons');
@@ -24,16 +25,32 @@ function App() {
     }
   }, [])
 
-  const handleUpdatePerson = (newPersons: Person[]) => {
+  const handleUpdatePersons = (newPersons: Person[]) => {
     setPersons(newPersons)
     localStorage.setItem('persons', JSON.stringify(newPersons))
   }
 
+  const handleAddPerson = (person: Person) => {
+    handleUpdatePersons([...persons, person])
+    setFormActive(false)
+  }
+
   return (
     <div className='app-container'>
-      <FormPerson handleAddPerson={person => handleUpdatePerson([...persons, person])} />
+      {formPersonActive && (
+        <FormPerson handleAddPerson={handleAddPerson} />
+      )}
 
-      <ListPersons persons={persons} handleUpdatePerson={handleUpdatePerson} />
+      {!formPersonActive && (
+        <ListPersons
+          persons={persons}
+          handleUpdatePersons={handleUpdatePersons}
+        />
+      )}
+
+      <button onClick={() => setFormActive(!formPersonActive)}>
+        {formPersonActive ? 'Voltar' : 'Adicionar'}
+      </button>
     </div>
   );
 }
