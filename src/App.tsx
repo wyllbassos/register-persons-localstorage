@@ -2,54 +2,52 @@ import { useEffect, useState } from 'react';
 import './App.css';
 import { FieldProps } from './Components/Field';
 import Form from './Components/Form';
-import FormPerson from './Person/FormPerson';
-import ListPersons from './Person/ListPersons';
+import FormTodo from './Todo/FormTodo';
+import ListTodos from './Todo/ListTodo';
 
-export interface Person {
-  name: string;
-  lastName: string;
-  age: number;
+export interface Todo {
+  description: string;
 }
 
 function App() {
-  const [persons, setPersons] = useState<Person[]>([])
-  const [formPersonActive, setFormActive] = useState(false)
+  const [todos, setTodos] = useState<Todo[]>([])
+  const [formTodoActive, setFormActive] = useState(false)
 
   useEffect(() => {
-    const personsStr = localStorage.getItem('persons');
-    if (personsStr !== null) {
-      const personsStorage: Person[] = JSON.parse(personsStr);
-      setPersons(personsStorage);
+    const todosStr = localStorage.getItem('todos');
+    if (todosStr !== null) {
+      const todosStorage: Todo[] = JSON.parse(todosStr);
+      setTodos(todosStorage);
     } else {
-      localStorage.setItem('persons', '[]')
+      localStorage.setItem('todos', '[]')
     }
   }, [])
 
-  const handleUpdatePersons = (newPersons: Person[]) => {
-    setPersons(newPersons)
-    localStorage.setItem('persons', JSON.stringify(newPersons))
+  const handleUpdateTodos = (newTodos: Todo[]) => {
+    setTodos(newTodos)
+    localStorage.setItem('todos', JSON.stringify(newTodos))
   }
 
-  const handleAddPerson = (person: Person) => {
-    handleUpdatePersons([...persons, person])
+  const handleAddTodo = (todo: Todo) => {
+    handleUpdateTodos([...todos, todo])
     setFormActive(false)
   }
 
   return (
     <div className='app-container'>
-      {formPersonActive && (
-        <FormPerson handleAddPerson={handleAddPerson} />
+      {formTodoActive && (
+        <FormTodo handleAddTodo={handleAddTodo} />
       )}
 
-      {!formPersonActive && (
-        <ListPersons
-          persons={persons}
-          handleUpdatePersons={handleUpdatePersons}
+      {!formTodoActive && (
+        <ListTodos
+          todos={todos}
+          handleUpdateTodos={handleUpdateTodos}
         />
       )}
 
-      <button onClick={() => setFormActive(!formPersonActive)}>
-        {formPersonActive ? 'Voltar' : 'Adicionar'}
+      <button onClick={() => setFormActive(!formTodoActive)}>
+        {formTodoActive ? 'Voltar' : 'Adicionar'}
       </button>
     </div>
   );

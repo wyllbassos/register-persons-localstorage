@@ -5,14 +5,13 @@
     margin-top: 16px;
   }
   
-  .app-list-container span {
-    display: flex;
+  .app-list-container table tr td {
     justify-content: center;
     align-items: center;
     height: 32px;
   }
   
-  .app-list-container span button {
+  .app-list-container table tr td button {
     margin-right: 8px;
     border-width: 1px;
     padding: 0;
