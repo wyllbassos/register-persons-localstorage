@@ -9,31 +9,3 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
-
-.app-list-container {
-  display: flex;
-  flex-direction: column;
-  align-items: baseline;
-  margin-top: 16px;
-}
-
-.app-list-container span {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 32px;
-}
-
-.app-list-container span button {
-  margin-right: 8px;
-  border-width: 1px;
-  padding: 0;
-  width: 16px;
-  height: 16px;
-  font-size: 8px;
-  border-radius: 50%;
-  background-color: red;
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
-}

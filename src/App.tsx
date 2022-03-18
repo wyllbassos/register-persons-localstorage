@@ -2,8 +2,9 @@ import { useEffect, useState } from 'react';
 import './App.css';
 import { FieldProps } from './Components/Field';
 import Form from './Components/Form';
+import ListPersons from './Person/ListPersons';
 
-interface Person {
+export interface Person {
   name: string;
   lastName: string;
   age: number;
@@ -85,24 +86,11 @@ function App() {
     localStorage.setItem('persons', JSON.stringify(newPersons))
   }
 
-  const handleDeleteIten = (index: number) => {
-    const newPersons = [...persons]
-    newPersons.splice(index, 1)
-    handleUpdatePerson(newPersons)
-  }
-
   return (
     <div className='app-container'>
       <Form fields={fields} onSubmit={onSubmit} />
 
-      <div className='app-list-container'>
-        {persons.map((person, i) => (
-          <span key={i}>
-            <button onClick={e => handleDeleteIten(i)}>X</button>
-            {`${person.name} ${person.lastName} ${person.age}`}
-          </span>
-        ))}
-      </div>
+      <ListPersons persons={persons} handleUpdatePerson={handleUpdatePerson} />
     </div>
   );
 }
