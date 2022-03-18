@@ -15,23 +15,16 @@ function ListTodos({ todos, handleUpdateTodos }: ListTodosProps) {
 
   return (
     <div className='app-list-container'>
-      <table>
-        <thead>
-          <th colSpan={2}>Descrição</th>
-        </thead>
-        <tbody>
-          {todos.map(({ description }, i) => (
-          <tr key={i}>
-            <td>
-              <button onClick={() => handleDeleteTodo(i)}>X</button>
-            </td>
-            <td>
-              {description}
-            </td>
-          </tr>
-          ))}
-        </tbody>
-      </table>
+      {todos.map(({ description }, i) => (
+        <div className='app-list-card'>
+          <div className='app-list-card-button-container'>
+            <button onClick={() => handleDeleteTodo(i)}>X</button>
+          </div>
+          <div className='app-list-card-label-container'>
+            <label>{description}</label>
+          </div>
+        </div>
+      ))}
     </div>
   );
 }

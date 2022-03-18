@@ -2,15 +2,29 @@
   display: flex;
   flex-direction: column;
   align-items: baseline;
+  margin: 16px;
+  position: relative;
+}
+
+.app-list-container div {
+  display: flex;
+  align-items: center;
+}
+
+.app-list-card {
   margin-top: 16px;
+  background-color: gray;
+  width: calc(-16px + 100% - 16px);
+  border-radius: 8px;
+  padding: 8px 16px;
 }
 
-.app-list-container table tr {
-  height: 32px;
+.app-list-card:first-child {
+  margin-top: 0px;
 }
 
-.app-list-container table tr button {
-  margin-right: 8px;
+.app-list-card button {
+  margin-right: 16px;
   border-width: 1px;
   padding: 0;
   width: 16px;
@@ -21,4 +35,10 @@
   color: white;
   font-weight: bold;
   cursor: pointer;
+}
+
+.app-list-container table tr {
+  background-color: gray;
+  margin: 8px;
+  height: 32px;
 }
