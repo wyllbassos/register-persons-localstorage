@@ -16,7 +16,7 @@ function FormTodo({ handleAddTodo }: FormTodoProps) {
     {
       marginTop: false,
       value: todoForm.description,
-      label: 'Nome',
+      label: 'Descrição',
       onChange: e => handleChangeField(e, 'description'),
       type: 'text'
     },
