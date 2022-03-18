@@ -46,7 +46,10 @@ function App() {
         />
       )}
 
-      <button onClick={() => setFormActive(!formTodoActive)}>
+      <button
+        className='app-button-add-back'
+        onClick={() => setFormActive(!formTodoActive)}
+      >
         {formTodoActive ? 'Voltar' : 'Adicionar'}
       </button>
     </div>
