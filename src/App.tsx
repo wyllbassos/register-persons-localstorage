@@ -1,17 +1,14 @@
 import { useEffect, useState } from 'react';
 import './App.css';
-import { FieldProps } from './Components/Field';
-import Form from './Components/Form';
-import FormTodo from './Todo/FormTodo';
 import ListTodos from './Todo/ListTodo';
 
 export interface Todo {
+  id: string;
   description: string;
 }
 
 function App() {
   const [todos, setTodos] = useState<Todo[]>([])
-  const [formTodoActive, setFormActive] = useState(false)
   const [description, setDescription] = useState("")
 
   useEffect(() => {
@@ -22,6 +19,9 @@ function App() {
     } else {
       localStorage.setItem('todos', '[]')
     }
+    if (localStorage.getItem('lastId') === null) {
+      localStorage.setItem('lastId', '0')
+    }
   }, [])
 
   const handleUpdateTodos = (newTodos: Todo[]) => {
@@ -30,33 +30,31 @@ function App() {
   }
 
   const handleAddTodo = () => {
+    todos.sort( (a, b) => a.id > b.id ? 1 : 0 )
+    const idNumber = Number(localStorage.getItem('lastId')) + 1;
+    localStorage.setItem('lastId', String(idNumber))
+    const id = `id${idNumber}`
 
-    handleUpdateTodos([...todos, { description }])
+    handleUpdateTodos([...todos, { id, description }])
     setDescription("")
     // setFormActive(false)
   }
 
   return (
     <div className='app-container'>
-      {formTodoActive && (
-        <FormTodo handleAddTodo={handleAddTodo} />
-      )}
       <h1>Lista de Tarefas</h1>
 
-      {!formTodoActive && (
-        <ListTodos
-          todos={todos}
-          handleUpdateTodos={handleUpdateTodos}
-        />
-      )}
+      <ListTodos
+        todos={todos}
+        handleUpdateTodos={handleUpdateTodos}
+      />
 
       <div className='app-form-container'>
         <button
           className='app-button-add-back'
           onClick={handleAddTodo}
-          // onClick={() => setFormActive(!formTodoActive)}
         >
-          {formTodoActive ? 'Voltar' : 'Adicionar'}
+          Adicionar
         </button>
 
         <input value={description} onChange={e => setDescription(e.target.value)} />
