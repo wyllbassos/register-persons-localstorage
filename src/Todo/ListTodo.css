@@ -1,0 +1,61 @@
+.app-list-container {
+  align-items: baseline;
+  margin: 16px 0;
+  position: relative;
+  width: calc(-16px + 100% - 16px);
+  max-width: 540px;
+  overflow-y: auto;
+  height: 100%;
+  background-color: gray;
+  padding: 32px;
+  box-shadow: black 4px 4px 16px;
+  border-radius: 16px;
+}
+
+.app-list-container::-webkit-scrollbar {
+  background-color: #aaa;
+  background-color: transparent;
+  outline: 1px solid white;
+  outline-offset: -8px;
+  width: 16px;
+}
+
+.app-list-container::-webkit-scrollbar-thumb {
+  background: #282c34;
+  border-radius: 8px;
+  border: solid 4px transparent;
+  background-clip: content-box;
+  max-height: 32px;
+}
+
+.app-list-container div {
+  display: flex;
+  align-items: center;
+}
+
+.app-list-card {
+  margin-top: 16px;
+  background-color: #282c34;
+  border-radius: 8px;
+  padding: 8px 16px;
+  box-shadow: 8px 8px 8px black;
+  cursor: ns-resize;
+}
+
+.app-list-card:first-child {
+  margin-top: 0px;
+}
+
+.app-list-card button {
+  margin-right: 16px;
+  border-width: 1px;
+  padding: 0;
+  width: 16px;
+  height: 16px;
+  font-size: 8px;
+  border-radius: 50%;
+  background-color: red;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}

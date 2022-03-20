@@ -1,56 +1,64 @@
 import { useEffect, useState } from 'react';
 import './App.css';
-import { FieldProps } from './Components/Field';
-import Form from './Components/Form';
-import FormPerson from './Person/FormPerson';
-import ListPersons from './Person/ListPersons';
+import ListTodos from './Todo/ListTodo';
 
-export interface Person {
-  name: string;
-  lastName: string;
-  age: number;
+export interface Todo {
+  id: string;
+  description: string;
 }
 
 function App() {
-  const [persons, setPersons] = useState<Person[]>([])
-  const [formPersonActive, setFormActive] = useState(false)
+  const [todos, setTodos] = useState<Todo[]>([])
+  const [description, setDescription] = useState("")
 
   useEffect(() => {
-    const personsStr = localStorage.getItem('persons');
-    if (personsStr !== null) {
-      const personsStorage: Person[] = JSON.parse(personsStr);
-      setPersons(personsStorage);
+    const todosStr = localStorage.getItem('todos');
+    if (todosStr !== null) {
+      const todosStorage: Todo[] = JSON.parse(todosStr);
+      setTodos(todosStorage);
     } else {
-      localStorage.setItem('persons', '[]')
+      localStorage.setItem('todos', '[]')
+    }
+    if (localStorage.getItem('lastId') === null) {
+      localStorage.setItem('lastId', '0')
     }
   }, [])
 
-  const handleUpdatePersons = (newPersons: Person[]) => {
-    setPersons(newPersons)
-    localStorage.setItem('persons', JSON.stringify(newPersons))
+  const handleUpdateTodos = (newTodos: Todo[]) => {
+    setTodos(newTodos)
+    localStorage.setItem('todos', JSON.stringify(newTodos))
   }
 
-  const handleAddPerson = (person: Person) => {
-    handleUpdatePersons([...persons, person])
-    setFormActive(false)
+  const handleAddTodo = () => {
+    todos.sort( (a, b) => a.id > b.id ? 1 : 0 )
+    const idNumber = Number(localStorage.getItem('lastId')) + 1;
+    localStorage.setItem('lastId', String(idNumber))
+    const id = `id${idNumber}`
+
+    handleUpdateTodos([...todos, { id, description }])
+    setDescription("")
+    // setFormActive(false)
   }
 
   return (
     <div className='app-container'>
-      {formPersonActive && (
-        <FormPerson handleAddPerson={handleAddPerson} />
-      )}
+      <h1>Lista de Tarefas</h1>
 
-      {!formPersonActive && (
-        <ListPersons
-          persons={persons}
-          handleUpdatePersons={handleUpdatePersons}
-        />
-      )}
+      <ListTodos
+        todos={todos}
+        handleUpdateTodos={handleUpdateTodos}
+      />
 
-      <button onClick={() => setFormActive(!formPersonActive)}>
-        {formPersonActive ? 'Voltar' : 'Adicionar'}
-      </button>
+      <div className='app-form-container'>
+        <button
+          className='app-button-add-back'
+          onClick={handleAddTodo}
+        >
+          Adicionar
+        </button>
+
+        <input value={description} onChange={e => setDescription(e.target.value)} />
+      </div>
     </div>
   );
 }
