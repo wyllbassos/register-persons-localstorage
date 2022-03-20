@@ -1,8 +1,6 @@
 .app-list-container {
-  display: flex;
-  flex-direction: column;
   align-items: baseline;
-  margin-bottom: 16px;
+  margin: 16px 0;
   position: relative;
   width: calc(-16px + 100% - 16px);
   max-width: 540px;
@@ -10,6 +8,8 @@
   height: 100%;
   background-color: gray;
   padding: 32px;
+  box-shadow: black 4px 4px 16px;
+  border-radius: 16px;
 }
 
 .app-list-container::-webkit-scrollbar {
@@ -36,7 +36,6 @@
 .app-list-card {
   margin-top: 16px;
   background-color: #282c34;
-  width: calc(-16px + 100% - 16px);
   border-radius: 8px;
   padding: 8px 16px;
   box-shadow: 8px 8px 8px black;

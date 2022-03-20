@@ -12,6 +12,7 @@ export interface Todo {
 function App() {
   const [todos, setTodos] = useState<Todo[]>([])
   const [formTodoActive, setFormActive] = useState(false)
+  const [description, setDescription] = useState("")
 
   useEffect(() => {
     const todosStr = localStorage.getItem('todos');
@@ -28,9 +29,11 @@ function App() {
     localStorage.setItem('todos', JSON.stringify(newTodos))
   }
 
-  const handleAddTodo = (todo: Todo) => {
-    handleUpdateTodos([...todos, todo])
-    setFormActive(false)
+  const handleAddTodo = () => {
+
+    handleUpdateTodos([...todos, { description }])
+    setDescription("")
+    // setFormActive(false)
   }
 
   return (
@@ -38,6 +41,7 @@ function App() {
       {formTodoActive && (
         <FormTodo handleAddTodo={handleAddTodo} />
       )}
+      <h1>Lista de Tarefas</h1>
 
       {!formTodoActive && (
         <ListTodos
@@ -46,12 +50,17 @@ function App() {
         />
       )}
 
-      <button
-        className='app-button-add-back'
-        onClick={() => setFormActive(!formTodoActive)}
-      >
-        {formTodoActive ? 'Voltar' : 'Adicionar'}
-      </button>
+      <div className='app-form-container'>
+        <button
+          className='app-button-add-back'
+          onClick={handleAddTodo}
+          // onClick={() => setFormActive(!formTodoActive)}
+        >
+          {formTodoActive ? 'Voltar' : 'Adicionar'}
+        </button>
+
+        <input value={description} onChange={e => setDescription(e.target.value)} />
+      </div>
     </div>
   );
 }
